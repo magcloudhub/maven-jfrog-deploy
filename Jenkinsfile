@@ -7,6 +7,20 @@ node {
         git url: 'https://github.com/pattaabhi/jfrog-project-examples.git'
     }
  
+    stage ('Unit Test') {
+        rtMaven.tool = 'maven3.5.2' // Tool name from Jenkins configuration
+        rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean test'
+    }
+    
+    stage('SonarQube Analysis') {
+          rtMaven.run pom: 'maven-example/pom.xml', goals: 'sonar:sonar' 
+          sh ' mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar ' +
+             ' -Dsonar.host.url=https://sonarcloud.io ' +
+             ' -Dsonar.organization=pattabhi '+ 
+             ' -Dsonar.login=df5bb81bae9ba310d6a38135b957227ba6ecd32c '
+          }
+      }
+    
     stage ('Artifactory configuration') {
         // Obtain an Artifactory server instance, defined in Jenkins --> Manage..:
          
@@ -16,19 +30,7 @@ node {
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
 
     }
-    
-    stage('SonarQube analysis') {
-    withSonarQubeEnv('SonarCloud') {
-      // requires SonarQube Scanner for Maven 3.2+
-      rtMaven.run pom: 'maven-example/pom.xml', goals: 'sonar:sonar'  
-      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-    }
-  }
- 
-    stage ('Test') {
-        rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean test'
-    }
-        
+            
     stage ('Install') {
         rtMaven.run pom: 'maven-example/pom.xml', goals: 'install', buildInfo: buildInfo
     }
