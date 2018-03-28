@@ -18,7 +18,7 @@ node {
              ' -Dsonar.host.url=https://sonarcloud.io ' +
              ' -Dsonar.organization=pattabhi '+ 
              ' -Dsonar.login=df5bb81bae9ba310d6a38135b957227ba6ecd32c '
-          }
+          
       }
     
     stage ('Artifactory configuration') {
@@ -28,12 +28,11 @@ node {
         rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
         rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
-
-    }
+     }
             
     stage ('Install') {
         rtMaven.run pom: 'maven-example/pom.xml', goals: 'install', buildInfo: buildInfo
-    }
+     }
  
     stage ('Deploy') {
         rtMaven.deployer.deployArtifacts buildInfo
