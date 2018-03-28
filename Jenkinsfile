@@ -4,7 +4,7 @@ node {
     def rtMaven = Artifactory.newMavenBuild()
     
     stage ('Checkout & Build') {
-        git url: 'https://github.com/jfrogdev/project-examples.git'
+        git url: 'https://github.com/pattaabhi/jfrog-project-examples.git'
     }
  
     stage ('Artifactory configuration') {
