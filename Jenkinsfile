@@ -4,16 +4,16 @@ node {
     def rtMaven = Artifactory.newMavenBuild()
     
     stage ('Checkout & Build') {
-        git url: 'https://github.com/pavants52/jfrog-project-examples.git'
+        git url: 'https://github.com/pavants52/gs-maven.git'
     }
  
     stage ('Unit Test') {
         rtMaven.tool = 'apache-maven-3.5.2' // Tool name from Jenkins configuration
-        rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean test'
+        rtMaven.run pom: 'pom.xml', goals: 'clean test'
     }
     
     stage('SonarQube Analysis') {
-        //rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pattabhi -Dsonar.login=df5bb81bae9ba310d6a38135b957227ba6ecd32c '
+        rtMaven.run pom: 'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pavants52-github -Dsonar.login=14c72f2b1ec1fe86f3de48d9e2e7fe8ee3ebe804 '
      
           
       }
@@ -28,7 +28,7 @@ node {
      }
             
     stage ('Install') {
-        rtMaven.run pom: 'maven-example/pom.xml', goals: 'install', buildInfo: buildInfo
+        rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
      }
  
     stage ('Deploy') {
