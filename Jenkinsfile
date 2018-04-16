@@ -4,7 +4,7 @@ node {
     def rtMaven = Artifactory.newMavenBuild()
     
     stage ('Checkout & Build') {
-        git url: 'https://github.com/pavants52/gs-maven.git'
+        git url: 'https://github.com/pavants52/java-app.git'
     }
  
     stage ('Unit Test') {
