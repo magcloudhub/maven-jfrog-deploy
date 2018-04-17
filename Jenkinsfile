@@ -13,7 +13,7 @@ node {
     }
     
     stage('SonarQube Analysis') {
-        rtMaven.run pom: 'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pavants52-github -Dsonar.login=14c72f2b1ec1fe86f3de48d9e2e7fe8ee3ebe804 '
+       // rtMaven.run pom: 'pom.xml', goals: 'clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=pavants52-github -Dsonar.login=14c72f2b1ec1fe86f3de48d9e2e7fe8ee3ebe804 '
      
           
       }
